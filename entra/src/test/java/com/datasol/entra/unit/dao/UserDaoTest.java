@@ -1,27 +1,16 @@
 package com.datasol.entra.unit.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.List;
-
-
-
-
-
-
-
-
-
-
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -76,7 +65,7 @@ public class UserDaoTest {
 	}
 	
 	@Test/*(expected=ConstraintViolationException.class)*/
-	public void testValidations() throws DaoException{
+	public void testValidationsShortName() throws DaoException{
 		User badUser = new User();
 		badUser.setFirstName("a");
 		badUser.setLastName("good last name");
@@ -88,6 +77,17 @@ public class UserDaoTest {
 		 Set<ConstraintViolation<User>> errors  = validator.validate(badUser);
 		 assertEquals(1,errors.size());
 		 assertEquals("size must be between 2 and 20",errors.iterator().next().getMessage());
+		 
+	}
+	@Test
+	public void testValidationsEmail() throws DaoException{
+		User badUser = new User();
+		badUser.setFirstName("amos");
+		badUser.setLastName("good last name");
+		badUser.setEmail("good@email,com");
+		 Set<ConstraintViolation<User>> errors  = validator.validate(badUser);
+		 assertEquals(1,errors.size());
+		 assertEquals("not a well-formed email address",errors.iterator().next().getMessage());
 		 
 	}
 
