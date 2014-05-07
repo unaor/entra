@@ -5,6 +5,7 @@
 	xmlns:p="http://www.springframework.org/schema/p" 
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -13,7 +14,9 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/jdbc 
+        http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -26,22 +29,26 @@
 
 	
 	<context:component-scan base-package="com.datasol.entra" />
-
-	<bean id="dataSource.mysql" class="org.apache.commons.dbcp.BasicDataSource"
+			<!--i have configured HSQL db for testing at other computers can switch between it and mysql -->
+	<!-- <bean id="dataSource.mysql" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" p:driverClassName="${mysql.jdbc.driverClassName}"
 		p:url="${mysql.jdbc.url}" p:username="${mysql.jdbc.username}"
 		p:password="${mysql.jdbc.password}"
-		p:validationQuery="SELECT 1"/>
-
+		p:validationQuery="SELECT 1"/> -->
+		
+	<jdbc:embedded-database id="dataSource" type="HSQL">
+		 <jdbc:script location="classpath:schema.sql"/>		
+	</jdbc:embedded-database>
 	
 	
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="dataSource" ref="dataSource.mysql" />
+		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="com.datasol.entra.domain"/>
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<!-- <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop> -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">true</prop>			
 				<prop key="hibernate.c3p0.min_size">5</prop>

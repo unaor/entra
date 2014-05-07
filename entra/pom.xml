@@ -65,35 +65,35 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		
-		
-<!-- 		<dependency> -->
-<!-- 		   <groupId>javax.el</groupId> -->
-<!-- 		   <artifactId>javax.el-api</artifactId> -->
-<!-- 		   <version>2.2.4</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 		   <groupId>org.glassfish.web</groupId> -->
-<!-- 		   <artifactId>javax.el</artifactId> -->
-<!-- 		   <version>2.2.4</version> -->
-<!-- 		</dependency> -->
-				
 
-<!-- 		<dependency> -->
-<!-- 		   <groupId>org.hibernate</groupId> -->
-<!-- 		   <artifactId>hibernate-validator-cdi</artifactId> -->
-<!-- 		   <version>5.1.0.Final</version> -->
-<!-- 		</dependency> -->
 
-		
+		<!-- <dependency> -->
+		<!-- <groupId>javax.el</groupId> -->
+		<!-- <artifactId>javax.el-api</artifactId> -->
+		<!-- <version>2.2.4</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.glassfish.web</groupId> -->
+		<!-- <artifactId>javax.el</artifactId> -->
+		<!-- <version>2.2.4</version> -->
+		<!-- </dependency> -->
 
-		
+
+		<!-- <dependency> -->
+		<!-- <groupId>org.hibernate</groupId> -->
+		<!-- <artifactId>hibernate-validator-cdi</artifactId> -->
+		<!-- <version>5.1.0.Final</version> -->
+		<!-- </dependency> -->
+
+
+
+
 
 		<dependency>
 			<groupId>commons-dbcp</groupId>
@@ -128,6 +128,13 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.2.8</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
