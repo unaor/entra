@@ -3,18 +3,16 @@ package com.datasol.entra.domain;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,16 +27,14 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @Entity
 @Table(name = "clients",schema="entra")
+@AttributeOverrides({
+    @AttributeOverride(name="firstName", column=@Column(name="FIRST_NAME")),
+    @AttributeOverride(name="lastName", column=@Column(name="LAST_NAME"))
+})
 public class Client extends User {
 	
 	private static final long serialVersionUID = -3757677440982682401L;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="client_id")
-	private Long clientId;
-	@OneToOne(mappedBy="client", cascade=CascadeType.ALL)
-	private User user;
 	@Column(name="business_name")
 	@NotNull
 	@Size(min=5,max=25)
@@ -75,6 +71,72 @@ public class Client extends User {
              fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Coupon> coupons;
 	
+	public String getBusinessName() {
+		return businessName;
+	}
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
+	}
+	public Set<Tag> getTags() {
+		return tags;
+	}
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
+	public String getStreetAddress() {
+		return streetAddress;
+	}
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getProvince() {
+		return province;
+	}
+	public void setProvince(String province) {
+		this.province = province;
+	}
+	public String getBusinessPhoneNumber() {
+		return businessPhoneNumber;
+	}
+	public void setBusinessPhoneNumber(String businessPhoneNumber) {
+		this.businessPhoneNumber = businessPhoneNumber;
+	}
+	public String getBusinessEmail() {
+		return businessEmail;
+	}
+	public void setBusinessEmail(String businessEmail) {
+		this.businessEmail = businessEmail;
+	}
+	public Set<FeedBack> getFeedbacks() {
+		return feedbacks;
+	}
+	public void setFeedbacks(Set<FeedBack> feedbacks) {
+		this.feedbacks = feedbacks;
+	}
+	public Date getAffiliationDate() {
+		return affiliationDate;
+	}
+	public void setAffiliationDate(Date affiliationDate) {
+		this.affiliationDate = affiliationDate;
+	}
+	public Integer getAllowedCoupons() {
+		return allowedCoupons;
+	}
+	public void setAllowedCoupons(Integer allowedCoupons) {
+		this.allowedCoupons = allowedCoupons;
+	}
+	public Set<Coupon> getCoupons() {
+		return coupons;
+	}
+	public void setCoupons(Set<Coupon> coupons) {
+		this.coupons = coupons;
+	}
+	
 	//TODO: add financialData object
-
 }

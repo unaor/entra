@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -18,6 +20,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 @Entity
 @Table(name = "users",schema="entra")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User implements Serializable{
 
 
@@ -82,9 +85,5 @@ public class User implements Serializable{
 
 	public Client getClient() {
 		return client;
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
 	}
 }
