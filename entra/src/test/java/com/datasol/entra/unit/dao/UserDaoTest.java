@@ -90,6 +90,19 @@ public class UserDaoTest {
 		 assertEquals("not a well-formed email address",errors.iterator().next().getMessage());
 		 
 	}
+	
+	@Test(expected = org.hibernate.exception.ConstraintViolationException.class)  
+	public void testUniqueEmail() throws DaoException{
+		User uri = new User("uri","naor","a@b.com");
+		userDao.saveUser(uri);
+		//Session session = sessionFactory.getCurrentSession();
+		//session.save(uri);
+		//session.flush();	
+		User clone = new User("clone","wars","a@b.com");
+		userDao.saveUser(clone);
+		//session.save(clone);
+		//session.flush();
+	}
 
 	@After
 	public void cleanUp() throws DaoException{

@@ -11,8 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -40,16 +38,18 @@ public class User implements Serializable{
 	@Size(min=2,max=20)
 	private String lastName;
 	
-	@Column(name="email")
+	@Column(name="email",unique=true)
 	@NotNull
 	@Email
 	private String email;
 	
-	@OneToOne
-    @PrimaryKeyJoinColumn
-	private Client client;
-	
 	public User() {}
+	
+	public User(String firstName ,String lastName,String email){
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+	}
 
 	public Integer getUserId() {
 		return userId;
@@ -81,9 +81,5 @@ public class User implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Client getClient() {
-		return client;
 	}
 }

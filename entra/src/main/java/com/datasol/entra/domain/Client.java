@@ -29,7 +29,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "clients",schema="entra")
 @AttributeOverrides({
     @AttributeOverride(name="firstName", column=@Column(name="FIRST_NAME")),
-    @AttributeOverride(name="lastName", column=@Column(name="LAST_NAME"))
+    @AttributeOverride(name="lastName", column=@Column(name="LAST_NAME")),
+    @AttributeOverride(name="email", column=@Column(name="email"))
 })
 public class Client extends User {
 	
@@ -70,6 +71,14 @@ public class Client extends User {
 	 @OneToMany(mappedBy="client",targetEntity=Coupon.class,
              fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Coupon> coupons;
+	 
+	public Client(){}
+	
+	public Client(User user){
+		setEmail(user.getEmail());
+		setFirstName(user.getFirstName());
+		setLastName(user.getLastName());
+	}
 	
 	public String getBusinessName() {
 		return businessName;

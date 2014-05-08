@@ -1,10 +1,12 @@
 package com.datasol.entra.unit.dao;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.Date;
 
-import static org.junit.Assert.*;
-
 import org.hibernate.SessionFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,15 +47,27 @@ public class ClientTestDao {
 	@Test
 	public void createClient() throws DaoException{
 		User uri = userDao.getUserByEmail("uri@naor.com");
-		Client client = new Client();
-		client.setUserId(uri.getUserId());
+		Client client = new Client(uri);
 		client.setAffiliationDate(new Date());
 		client.setBusinessName("new business");
+		client.setStreetAddress("cra 7c");
 		client.setCity("medellin");
+		client.setProvince("antioquiya");
+		client.setBusinessPhoneNumber("456765");
+		client.setBusinessEmail("business@yahoo.com");
 		clientDao.saveClient(client);
 		Client dbClient = clientDao.getClientByEmail("uri@naor.com");
 		assertNotNull(dbClient);
 		assertEquals("medellin", dbClient.getCity());
+	}
+	
+	
+	@After
+	public void cleanUp() throws DaoException{
+		Client client  =clientDao.getClients().get(0);
+		clientDao.deleteClient(client);
+		User user = userDao.getUsers().get(0);
+		userDao.deleteUser(user);
 	}
 
 }
