@@ -2,6 +2,7 @@ package com.datasol.entra.dao.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ public class UserDaoImpl implements UserDao {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
-
+	private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getUsers() throws DaoException {
 		Session session = sessionFactory.getCurrentSession();
@@ -26,12 +29,14 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public User getUserByEmail(String email) throws DaoException {
 		Session session = sessionFactory.getCurrentSession();
+		logger.debug("getting the user "+email);
 		return (User)session.createQuery("from User  where email=:email").setParameter("email", email).uniqueResult();
 	}
 
 	@Override
 	public void saveUser(User user) throws DaoException {
 		Session session = sessionFactory.getCurrentSession();
+		logger.debug("registering new user "+user.getEmail());
 		session.saveOrUpdate(user);
 
 	}

@@ -2,6 +2,7 @@ package com.datasol.entra.dao.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ public class ClientDaoImpl implements ClientDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
+	private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
 
 	@Override
 	public List<Client> getClients() throws DaoException {
@@ -26,6 +28,7 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public Client getClientByEmail(String email) throws DaoException {
 		Session session = sessionFactory.getCurrentSession();
+		logger.debug("client is logging in "+email);
 		return (Client) session
 				.createQuery("from Client c where c.email=:email")
 				.setParameter("email", email).uniqueResult();
@@ -34,6 +37,7 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public void saveClient(Client client) throws DaoException {
 		Session session = sessionFactory.getCurrentSession();
+		logger.debug("new client has joined "+client.getEmail());
 		session.saveOrUpdate(client);
 
 	}

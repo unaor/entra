@@ -40,7 +40,7 @@ public class Client extends User {
 	@NotNull
 	@Size(min=5,max=25)
 	private String businessName;
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "entra.tags_by_client", joinColumns ={
     @JoinColumn(name = "business_id") }, inverseJoinColumns = {@JoinColumn(name = "tag_id") })
 	private Set<Tag> tags;
@@ -61,7 +61,7 @@ public class Client extends User {
 	@Email
 	private String businessEmail;
 	 @OneToMany(mappedBy="client",targetEntity=FeedBack.class,
-             fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+             fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<FeedBack> feedbacks;
 	@Column(name="client_join_date") 
 	@DateTimeFormat(pattern="dd/MM/YY")
@@ -69,7 +69,7 @@ public class Client extends User {
 	@Column(name="client_allowed_coupons")
 	private Integer allowedCoupons;
 	 @OneToMany(mappedBy="client",targetEntity=Coupon.class,
-             fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+             fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Coupon> coupons;
 	 
 	public Client(){}
