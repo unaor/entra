@@ -28,16 +28,16 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public Client getClientByEmail(String email) throws DaoException {
 		Session session = sessionFactory.getCurrentSession();
-		logger.debug("client is logging in "+email);
+		logger.debug("getting client by email: "+email);
 		return (Client) session
-				.createQuery("from Client c where c.email=:email")
+				.createQuery("from Client c where c.user.email=:email")
 				.setParameter("email", email).uniqueResult();
 	}
 
 	@Override
 	public void saveClient(Client client) throws DaoException {
 		Session session = sessionFactory.getCurrentSession();
-		logger.debug("new client has joined "+client.getEmail());
+		logger.debug("new client has joined "+client.getUser().getEmail());
 		session.saveOrUpdate(client);
 
 	}

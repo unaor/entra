@@ -3,16 +3,18 @@ package com.datasol.entra.domain;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,15 +29,14 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @Entity
 @Table(name = "clients",schema="entra")
-@AttributeOverrides({
-    @AttributeOverride(name="firstName", column=@Column(name="FIRST_NAME")),
-    @AttributeOverride(name="lastName", column=@Column(name="LAST_NAME")),
-    @AttributeOverride(name="email", column=@Column(name="email"))
-})
-public class Client extends User {
+
+public class Client  {
 	
 	private static final long serialVersionUID = -3757677440982682401L;
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="client_id")
+	private Long clientId;
 	@Column(name="business_name")
 	@NotNull
 	@Size(min=5,max=25)
@@ -62,7 +63,7 @@ public class Client extends User {
 	private String businessEmail;
 	 @OneToMany(mappedBy="client",targetEntity=FeedBack.class,
              fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<FeedBack> feedbacks;
+	private Set<FeedBack> receivedFeedbacks;
 	@Column(name="client_join_date") 
 	@DateTimeFormat(pattern="dd/MM/YY")
 	private Date affiliationDate;
@@ -71,13 +72,14 @@ public class Client extends User {
 	 @OneToMany(mappedBy="client",targetEntity=Coupon.class,
              fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Coupon> coupons;
+	
+	@OneToOne(mappedBy="client", cascade=CascadeType.ALL)
+	private User user;
 	 
 	public Client(){}
 	
 	public Client(User user){
-		setEmail(user.getEmail());
-		setFirstName(user.getFirstName());
-		setLastName(user.getLastName());
+		this.user = user;
 	}
 	
 	public String getBusinessName() {
@@ -122,12 +124,15 @@ public class Client extends User {
 	public void setBusinessEmail(String businessEmail) {
 		this.businessEmail = businessEmail;
 	}
-	public Set<FeedBack> getFeedbacks() {
-		return feedbacks;
+	
+	public Set<FeedBack> getReceivedFeedbacks() {
+		return receivedFeedbacks;
 	}
-	public void setFeedbacks(Set<FeedBack> feedbacks) {
-		this.feedbacks = feedbacks;
+
+	public void setReceivedFeedbacks(Set<FeedBack> receivedFeedbacks) {
+		this.receivedFeedbacks = receivedFeedbacks;
 	}
+
 	public Date getAffiliationDate() {
 		return affiliationDate;
 	}
@@ -145,6 +150,22 @@ public class Client extends User {
 	}
 	public void setCoupons(Set<Coupon> coupons) {
 		this.coupons = coupons;
+	}
+
+	public Long getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(Long clientId) {
+		this.clientId = clientId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	//TODO: add financialData object

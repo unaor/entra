@@ -48,12 +48,12 @@ public class CouponDaoImpl implements CouponDao {
 	}
 
 	@Override
-	public void extendCoupon(Coupon coupon) throws DaoException {
+	public void extendCoupon(Coupon coupon,int numOfDays) throws DaoException {
 		Session session = sessionFactory.getCurrentSession();
 		logger.debug("extending coupon "+coupon.getCouponTitle() +" end date");
 		Calendar cal = new GregorianCalendar();
 		cal.setTime(new Date());
-		cal.add(Calendar.DAY_OF_MONTH, 14);
+		cal.add(Calendar.DAY_OF_MONTH, numOfDays);
 		coupon.setCouponExpirationDate(cal.getTime());
 		session.update(coupon);
 	}

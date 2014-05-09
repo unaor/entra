@@ -3,14 +3,18 @@ package com.datasol.entra.domain;
  * the class represents a normal user that navigates into the portal
  */
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,7 +22,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 @Entity
 @Table(name = "users",schema="entra")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User implements Serializable{
 
 
@@ -26,7 +29,7 @@ public class User implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="user_id")
-	private Integer userId;
+	private Long userId;
 	
 	@Column(name="first_name")
 	@NotNull
@@ -42,6 +45,13 @@ public class User implements Serializable{
 	@NotNull
 	@Email
 	private String email;
+	 @OneToMany(mappedBy="user",targetEntity=FeedBack.class,
+             fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	 private Set<FeedBack> placedFeedBacks;
+	 
+	 @OneToOne
+	 @PrimaryKeyJoinColumn
+	 private Client client;
 	
 	public User() {}
 	
@@ -51,11 +61,11 @@ public class User implements Serializable{
 		this.email = email;
 	}
 
-	public Integer getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
@@ -81,5 +91,21 @@ public class User implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Set<FeedBack> getPlacedFeedBacks() {
+		return placedFeedBacks;
+	}
+
+	public void setPlacedFeedBacks(Set<FeedBack> placedFeedBacks) {
+		this.placedFeedBacks = placedFeedBacks;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
 	}
 }

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,12 +68,44 @@ public class CouponDaoTest {
 		assertEquals("MEGA COUPON",dbCoupon.getCouponTitle());
 	}
 	
+	@Test
+	public void updateCouponDate() throws DaoException{
+		Client client = clientDao.getClientByEmail("uri@naor.com");
+		Coupon coupon = createCouponToPersist(client);
+		couponDao.createCoupon(coupon);
+		coupon = null;
+		LocalDate twoWeeksFromNow = new LocalDate();
+		twoWeeksFromNow = twoWeeksFromNow.plusDays(14);
+		Coupon dbCoupon =couponDao.getcoupons().get(0);
+		couponDao.extendCoupon(dbCoupon,14);
+		dbCoupon = null;
+		Coupon ExtendedCoupon = couponDao.getcoupons().get(0);
+		LocalDate couponDate = new LocalDate(ExtendedCoupon.getCouponExpirationDate());
+		assertEquals(twoWeeksFromNow, couponDate);
+	}
+	
+	
 	@After
 	public void cleanUp() throws DaoException{
 		List<Coupon> coupons = couponDao.getcoupons();
 		for (Coupon coupon : coupons){
 			couponDao.deleteCoupon(coupon);
 		}
+	}
+	
+	
+	private Coupon createCouponToPersist(Client client){
+		Coupon coupon = new Coupon();
+		coupon.setAvailableQuantity(3);
+		coupon.setClient(client);
+		coupon.setCouponCreationDate(new Date());
+		coupon.setCouponDescription("first test coupon");
+		coupon.setCouponExpirationDate(new Date());
+		coupon.setCouponPictureLocation("where/are/you");
+		coupon.setCouponTitle("MEGA COUPON");
+		coupon.setCouponValue(400);
+		coupon.setIsActive(true);
+		return coupon;
 	}
 
 }

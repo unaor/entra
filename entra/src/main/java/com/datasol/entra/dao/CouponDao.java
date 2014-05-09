@@ -13,7 +13,7 @@ public interface CouponDao {
 	
 	public void changeCouponActivationStatus(Coupon coupon) throws DaoException;
 	
-	public void extendCoupon(Coupon coupon) throws DaoException;
+	public void extendCoupon(Coupon coupon,int numOfDays) throws DaoException;
 	
 	public List<Coupon> getcoupons() throws DaoException;
 

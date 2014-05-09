@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -18,7 +19,7 @@ import javax.validation.constraints.Size;
  * The FeedBack objects related to the Client object, this stores the individual feedback a client has received
  */
 @Entity
-@Table(name = "feedbacks",schema="entra")
+@Table(name = "feedbacks",schema="entra"/*,uniqueConstraints = {@UniqueConstraint(columnNames={"user_id"})}*/)
 public class FeedBack implements Serializable {
 
 	private static final long serialVersionUID = -2664053343647665858L;
@@ -35,9 +36,11 @@ public class FeedBack implements Serializable {
 	@Size(min=5,max=255)
 	private String feedBackText;
 	@Column(name="rating")
-	@NotNull
 	@Size(min=1,max=5)
 	private Integer starRating;
+	@ManyToOne
+    @JoinColumn(name = "user_id",updatable=true, insertable=true)
+	private User user;
 	
 	public FeedBack(){}
 
@@ -71,6 +74,14 @@ public class FeedBack implements Serializable {
 
 	public void setStarRating(Integer starRating) {
 		this.starRating = starRating;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

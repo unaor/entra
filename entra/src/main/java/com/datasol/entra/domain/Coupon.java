@@ -39,7 +39,6 @@ public class Coupon implements Serializable {
 	@NotNull
 	private String couponDescription;
 	@Column(name="coupon_value")
-	@NotNull
 	private Integer couponValue;
 	@Column(name="coupon_creation_date")
 	@DateTimeFormat(pattern="dd/MM/YY")
