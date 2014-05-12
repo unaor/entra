@@ -29,9 +29,10 @@ public class ClientDaoImpl implements ClientDao {
 	public Client getClientByEmail(String email) throws DaoException {
 		Session session = sessionFactory.getCurrentSession();
 		logger.debug("getting client by email: "+email);
-		return (Client) session
-				.createQuery("from Client c where c.user.email=:email")
+		Client client   = (Client) session
+				.createQuery("from Client c where c.user.email= :email")
 				.setParameter("email", email).uniqueResult();
+		return client;
 	}
 
 	@Override

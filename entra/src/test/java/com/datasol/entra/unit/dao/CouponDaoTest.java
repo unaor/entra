@@ -18,8 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.datasol.entra.dao.ClientDao;
 import com.datasol.entra.dao.CouponDao;
+import com.datasol.entra.dao.UserDao;
 import com.datasol.entra.domain.Client;
 import com.datasol.entra.domain.Coupon;
+import com.datasol.entra.domain.User;
 import com.datasol.entra.exception.DaoException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,16 +31,17 @@ import com.datasol.entra.exception.DaoException;
 public class CouponDaoTest {
 	
 	@Autowired
+	UserDao userDao;
+	@Autowired
 	ClientDao clientDao;
 	@Autowired
 	CouponDao couponDao;
 	
 	@Before
 	public void setUp() throws DaoException{
-		Client client = new Client();
-		client.setFirstName("uri");
-		client.setLastName("naor");
-		client.setEmail("uri@naor.com");
+		User uri =new User("uri","naor","uri@naor.com");
+		userDao.saveUser(uri);
+		Client client = new Client(uri);
 		client.setAffiliationDate(new Date());
 		client.setBusinessName("new business");
 		client.setStreetAddress("cra 7c");
@@ -64,7 +67,7 @@ public class CouponDaoTest {
 		coupon.setIsActive(true);
 		couponDao.createCoupon(coupon);
 		coupon = null;
-		Coupon dbCoupon =couponDao.getcoupons().get(0);
+		Coupon dbCoupon =couponDao.getCouponByClient(client.getClientId()).get(0);
 		assertEquals("MEGA COUPON",dbCoupon.getCouponTitle());
 	}
 	

@@ -11,15 +11,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /*
  * 
- * The FeedBack objects related to the Client object, this stores the individual feedback a client has received
+ * The FeedBack objects related to the Client object, this stores the individual feedback a client has received as well as the identity of its author
  */
 @Entity
-@Table(name = "feedbacks",schema="entra"/*,uniqueConstraints = {@UniqueConstraint(columnNames={"user_id"})}*/)
+@Table(name = "feedbacks",schema="entra",uniqueConstraints = {@UniqueConstraint(columnNames={"user_id","client_id"})})
 public class FeedBack implements Serializable {
 
 	private static final long serialVersionUID = -2664053343647665858L;
@@ -28,19 +30,21 @@ public class FeedBack implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="feedback_id")
 	private Long feedbackId;
+	
 	@ManyToOne
-    @JoinColumn(name = "client_id",updatable=true, insertable=true)
-	private Client client;
+    @JoinColumn(name = "client_id",updatable=false, insertable=false,nullable=false)
+	private Client receiverOfFBClient;
+	
 	@Column(name="feedback_text")
 	@NotNull
 	@Size(min=5,max=255)
 	private String feedBackText;
 	@Column(name="rating")
-	@Size(min=1,max=5)
+	@Min(1) @Max(5)
 	private Integer starRating;
 	@ManyToOne
-    @JoinColumn(name = "user_id",updatable=true, insertable=true)
-	private User user;
+    @JoinColumn(name = "user_id",updatable=false, insertable=false,nullable=false)
+	private User authorOfFBUser;
 	
 	public FeedBack(){}
 
@@ -52,13 +56,6 @@ public class FeedBack implements Serializable {
 		this.feedbackId = feedbackId;
 	}
 
-	public Client getClient() {
-		return client;
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
-	}
 
 	public String getFeedBackText() {
 		return feedBackText;
@@ -76,12 +73,19 @@ public class FeedBack implements Serializable {
 		this.starRating = starRating;
 	}
 
-	public User getUser() {
-		return user;
+	public Client getReceiverOfFBClient() {
+		return receiverOfFBClient;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setReceiverOfFBClient(Client receiverOfFBClient) {
+		this.receiverOfFBClient = receiverOfFBClient;
 	}
 
+	public User getAuthorOfFBUser() {
+		return authorOfFBUser;
+	}
+
+	public void setAuthorOfFBUser(User authorOfFBUser) {
+		this.authorOfFBUser = authorOfFBUser;
+	}
 }

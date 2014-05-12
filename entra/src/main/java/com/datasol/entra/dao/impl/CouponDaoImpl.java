@@ -65,4 +65,12 @@ public class CouponDaoImpl implements CouponDao {
 		return (List<Coupon>) session.createQuery("from Coupon").list();
 	}
 
+	@Override
+	public List<Coupon> getCouponByClient(Long clientId) throws DaoException {
+		Session session = sessionFactory.getCurrentSession();
+		List<Coupon> coupons = session.createQuery("from Coupon c where c.client.clientId = :clientId").
+				setParameter("clientId", clientId).list();
+		return coupons;
+	}
+
 }

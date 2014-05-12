@@ -53,7 +53,7 @@ public class Coupon implements Serializable {
 	@Column(name="is_coupon_active")
 	private Boolean isActive;
 	@ManyToOne
-    @JoinColumn(name = "client_id",updatable=true, insertable=true)
+    @JoinColumn(name = "client_id",updatable=true, insertable=true,nullable=false)
 	private Client client;
 	
 	//this attributes related to popularity settings of a coupon

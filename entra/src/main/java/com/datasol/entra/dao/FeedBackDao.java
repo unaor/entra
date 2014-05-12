@@ -12,5 +12,9 @@ public interface FeedBackDao {
 	public List<FeedBack> getClientFeedBacks(Long clientId) throws DaoException;
 	
 	public List<FeedBack> getFeedbacksByUser(Long userId) throws DaoException;
+	
+	public List<FeedBack> getAllFeedbacks() throws DaoException;
+	
+	public void deleteFB(FeedBack fb) throws DaoException;
 
 }

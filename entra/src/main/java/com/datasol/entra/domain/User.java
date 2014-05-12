@@ -1,4 +1,5 @@
 package com.datasol.entra.domain;
+
 /*		
  * the class represents a normal user that navigates into the portal
  */
@@ -14,48 +15,46 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
-@Entity
-@Table(name = "users",schema="entra")
-public class User implements Serializable{
 
+@Entity
+@Table(name = "users", schema = "entra")
+public class User implements Serializable {
 
 	private static final long serialVersionUID = 7168990382927442812L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="user_id")
+	@Column(name = "user_id")
 	private Long userId;
-	
-	@Column(name="first_name")
+
+	@Column(name = "first_name")
 	@NotNull
-	@Size(min=2,max=20)
+	@Size(min = 2, max = 20)
 	private String firstName;
-	
-	@Column(name="last_name")
+
+	@Column(name = "last_name")
 	@NotNull
-	@Size(min=2,max=20)
+	@Size(min = 2, max = 20)
 	private String lastName;
-	
-	@Column(name="email",unique=true)
+
+	@Column(name = "email", unique = true)
 	@NotNull
 	@Email
 	private String email;
-	 @OneToMany(mappedBy="user",targetEntity=FeedBack.class,
-             fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-	 private Set<FeedBack> placedFeedBacks;
-	 
-	 @OneToOne
-	 @PrimaryKeyJoinColumn
-	 private Client client;
-	
-	public User() {}
-	
-	public User(String firstName ,String lastName,String email){
+	@OneToMany(mappedBy = "authorOfFBUser", targetEntity = FeedBack.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<FeedBack> placedFeedBacks;
+
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	private Client client;
+
+	public User() {
+	}
+
+	public User(String firstName, String lastName, String email) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;

@@ -1,5 +1,6 @@
 package com.datasol.entra.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "clients",schema="entra")
 
-public class Client  {
+public class Client implements Serializable  {
 	
 	private static final long serialVersionUID = -3757677440982682401L;
 	@Id
@@ -60,20 +61,21 @@ public class Client  {
 	@Column(name="business_email")
 	@NotNull
 	@Email
-	private String businessEmail;
-	 @OneToMany(mappedBy="client",targetEntity=FeedBack.class,
+	private String businessEmail;	
+	@OneToMany(mappedBy="receiverOfFBClient",targetEntity=FeedBack.class,
              fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<FeedBack> receivedFeedbacks;
+	private Set<FeedBack> receivedFeedbacks;	
 	@Column(name="client_join_date") 
 	@DateTimeFormat(pattern="dd/MM/YY")
 	private Date affiliationDate;
 	@Column(name="client_allowed_coupons")
 	private Integer allowedCoupons;
-	 @OneToMany(mappedBy="client",targetEntity=Coupon.class,
+	@OneToMany(mappedBy="client",targetEntity=Coupon.class,
              fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Coupon> coupons;
 	
-	@OneToOne(mappedBy="client", cascade=CascadeType.ALL)
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "user_id")
 	private User user;
 	 
 	public Client(){}

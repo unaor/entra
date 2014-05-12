@@ -16,5 +16,7 @@ public interface CouponDao {
 	public void extendCoupon(Coupon coupon,int numOfDays) throws DaoException;
 	
 	public List<Coupon> getcoupons() throws DaoException;
+	
+	public List<Coupon> getCouponByClient(Long clientId) throws DaoException;
 
 }
