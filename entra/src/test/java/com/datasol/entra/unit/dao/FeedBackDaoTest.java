@@ -1,8 +1,14 @@
 package com.datasol.entra.unit.dao;
 
+import static org.junit.Assert.assertEquals;
+
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,8 +27,6 @@ import com.datasol.entra.domain.FeedBack;
 import com.datasol.entra.domain.User;
 import com.datasol.entra.exception.DaoException;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/testContext.xml")
 @TransactionConfiguration(defaultRollback=true)
@@ -35,6 +39,8 @@ public class FeedBackDaoTest {
 	UserDao userDao;
 	@Autowired
 	FeedBackDao feedbackDao;
+	@Autowired
+	SessionFactory sessionFactory;
 	
 	@Before
 	public void setUp() throws DaoException{
@@ -60,39 +66,54 @@ public class FeedBackDaoTest {
 	public void createAndCountFeedbacks() throws DaoException{
 		Client client  = clientDao.getClientByEmail("one@two.com");
 		User user1 = userDao.getUserByEmail("two@two.com");
+		User user2 = userDao.getUserByEmail("three@two.com");
+		FeedBack fb1 = new FeedBack();
+		fb1.setReceiverOfFBClient(client);
+		fb1.setFeedBackText("good service");
+		fb1.setAuthorOfFBUser(user1);
+		fb1.setStarRating(4);
+		FeedBack fb2 = new FeedBack();
+		fb2.setReceiverOfFBClient(client);
+		fb2.setFeedBackText("bad service");
+		fb2.setAuthorOfFBUser(user2);
+		fb1.setStarRating(1);
+		feedbackDao.createFeedback(fb1);
+		feedbackDao.createFeedback(fb2);
+		fb1=null;
+		List<FeedBack> dbFB = feedbackDao.getClientFeedBacks(client.getClientId());
+		assertEquals(2, dbFB.size());
+		assertEquals(user1.getUserId(), dbFB.get(0).getAuthorOfFBUser().getUserId());
+		assertEquals("good service", dbFB.get(0).getFeedBackText());
+	}
+	
+	@Test(expected=ConstraintViolationException.class)
+	public void userCantAddTwiceFBForSameBusiness() throws DaoException {
+		Client client  = clientDao.getClientByEmail("one@two.com");
+		User user1 = userDao.getUserByEmail("two@two.com");
 		FeedBack fb1 = new FeedBack();
 		fb1.setReceiverOfFBClient(client);
 		fb1.setFeedBackText("good service");
 		fb1.setAuthorOfFBUser(user1);
 		fb1.setStarRating(4);
 		feedbackDao.createFeedback(fb1);
-		//fb1=null;
-		FeedBack dbFB = (FeedBack)feedbackDao.getClientFeedBacks(client.getClientId()).get(0);
-		//FeedBack dbFB = (FeedBack)feedbackDao.getFeedbacksByUser(user1.getUserId()).get(0);
-		assertEquals(user1.getUserId(), dbFB.getAuthorOfFBUser().getUserId());
-		assertEquals("good service", dbFB.getFeedBackText());
-	}
-	
-	@Test
-	public void userCantAddTwiceFBForSameBusiness() throws DaoException{
-		Client client  = clientDao.getClientByEmail("uri@naor.com");
-		User user1 = userDao.getUserByEmail("one@two.com");
-		FeedBack fb1 = new FeedBack();
-		fb1.setReceiverOfFBClient(client);
-		fb1.setFeedBackText("good service");
-		//fb1.setUser(user1);
-		fb1.setStarRating(4);
-		feedbackDao.createFeedback(fb1);
 		FeedBack fb2 = new FeedBack();
 		fb2.setReceiverOfFBClient(client);
-		//fb2.setUser(user1);
+		fb2.setAuthorOfFBUser(user1);
 		fb2.setFeedBackText("bad service");
 		fb2.setStarRating(1);
+		try{
 		feedbackDao.createFeedback(fb2);
-		fb1=null;
-		fb2=null;
-		List<FeedBack> fbs = feedbackDao.getClientFeedBacks(client.getClientId());
-		assertEquals(2, fbs.size());
+		sessionFactory.getCurrentSession().flush();
+		}catch(ConstraintViolationException ex){
+			
+			fb1=null;
+			fb2=null;
+			sessionFactory.getCurrentSession().clear();
+			SQLException ex1= new SQLException();
+			throw new ConstraintViolationException("Could not insert",ex1,"what else");
+		}
+		System.out.println("executed code");
+		
 	}
 	
 	@After

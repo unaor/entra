@@ -3,6 +3,7 @@ package com.datasol.entra.unit.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -95,13 +97,15 @@ public class UserDaoTest {
 	public void testUniqueEmail() throws DaoException{
 		User uri = new User("uri","naor","a@b.com");
 		userDao.saveUser(uri);
-		//Session session = sessionFactory.getCurrentSession();
-		//session.save(uri);
-		//session.flush();	
 		User clone = new User("clone","wars","a@b.com");
 		userDao.saveUser(clone);
-		//session.save(clone);
-		//session.flush();
+		try{
+			sessionFactory.getCurrentSession().flush();
+		}catch(org.hibernate.exception.ConstraintViolationException ex){
+			sessionFactory.getCurrentSession().clear();
+			SQLException ex1= new SQLException();
+			throw new ConstraintViolationException("Could not insert",ex1,"what else");
+		}
 	}
 
 	@After

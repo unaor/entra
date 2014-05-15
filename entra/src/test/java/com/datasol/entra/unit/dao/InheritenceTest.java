@@ -44,7 +44,7 @@ public class InheritenceTest {
 		child.setAge(32L);
 		session.save(child);
 		session.flush();
-		Child dbChild = (Child)session.createQuery("select age from childs where father_id=1").list().get(0);
+		Child dbChild = (Child)session.createQuery("from Child c").list().get(0);
 		assertEquals("leonel", dbChild.getName());
 	}
 

@@ -32,7 +32,7 @@ public class FeedBack implements Serializable {
 	private Long feedbackId;
 	
 	@ManyToOne
-    @JoinColumn(name = "client_id",updatable=false, insertable=false,nullable=false)
+    @JoinColumn(name = "client_id",updatable=true, insertable=true,nullable=false)
 	private Client receiverOfFBClient;
 	
 	@Column(name="feedback_text")
@@ -43,7 +43,7 @@ public class FeedBack implements Serializable {
 	@Min(1) @Max(5)
 	private Integer starRating;
 	@ManyToOne
-    @JoinColumn(name = "user_id",updatable=false, insertable=false,nullable=false)
+    @JoinColumn(name = "user_id",updatable=true, insertable=true,nullable=false)
 	private User authorOfFBUser;
 	
 	public FeedBack(){}
