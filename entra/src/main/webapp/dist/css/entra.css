@@ -1,0 +1,19 @@
+.marketing{
+	width:900px;
+}
+.before-price{
+	font-size: 20px;
+	color: grey;
+	text-decoration:line-through; 
+}
+.after-price{
+	font-size: 20px;
+	color: green;
+	font-weight:bolder;
+	float:right;
+	margin-right:20px;
+}
+.sms-glyphicon{
+padding:10px;
+top:4px;
+}

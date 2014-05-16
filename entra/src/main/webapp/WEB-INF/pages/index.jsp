@@ -1,3 +1,4 @@
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,11 +9,12 @@
 <meta name="author" content="">
 <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
-<title>Carousel Template for Bootstrap</title>
+<title><spring:message code="home.page.title"/></title>
 
 <!-- Bootstrap core CSS -->
 <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"> -->
 <link rel="stylesheet" href="./dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="./dist/css/entra.css">
 <!-- Just for debugging purposes. Don't actually copy this line! -->
 <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -25,6 +27,7 @@
 <!-- Custom styles for this template -->
 <link href="carousel.css" rel="stylesheet">
 </head>
+
 <!-- NAVBAR
 ================================================== -->
 <body>
@@ -70,6 +73,7 @@
 
 	<!-- Carousel
     ================================================== -->
+    
 	<div id="myCarousel" class="carousel slide" data-ride="carousel" style="max-width: 900px; margin: 0 auto">
 		<!-- Indicators -->
 		<ol class="carousel-indicators">
@@ -100,7 +104,7 @@
 			</div>
 			<div class="item">
 				<img
-					img src="http://placehold.it/700x500"
+					img src="http://placehold.it/900x500"
 					alt="Second slide">
 				<div class="container">
 					<div class="carousel-caption">
@@ -116,7 +120,7 @@
 				</div>
 			</div>
 			<div class="item">
-				<img data-src="holder.js/900x500/left/#155:#5a5b5a/text:Third slide"
+				<img data-src="holder.js/900x500/center/#155:#5a5b5a/text:Third slide"
 					alt="Third slide">
 				<div class="container">
 					<div class="carousel-caption">
@@ -144,56 +148,48 @@
 	<!-- Marketing messaging and featurettes
     ================================================== -->
 	<!-- Wrap the rest of the page in another container to center all the content. -->
-
 	<div class="container marketing">
 
 		<!-- Three columns of text below the carousel -->
 		<div class="row">
-			<div class="col-lg-4">
-				<img class="img-circle" data-src="holder.js/140x140"
-					alt="Generic placeholder image">
-				<h2>Heading</h2>
-				<p>Donec sed odio dui. Etiam porta sem malesuada magna mollis
-					euismod. Nullam id dolor id nibh ultricies vehicula ut id elit.
-					Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-					Praesent commodo cursus magna.</p>
-				<p>
-					<a class="btn btn-default" href="#" role="button">View details
-						&raquo;</a>
-				</p>
+			<div class="col-md-6" style="padding:10px;">
+			<div class="col-md-12" style="padding-left:8px;">
+				<img src="http://placehold.it/400x250" 
+					alt="Third slide">
+				</div>
+				<div class="col-md-12" style="text-align:center;"><h3 style="color:green;">Dos sabanas por el precio de uno</h3></div>
+				<div class="col-md-12" style="text-align:center;"><span>Telas la sanaba</span></div>
+				<div class="col-md-12">
+				<span class="before-price">150,000</span><span class="after-price"> 100,000</span>
+				</div>
+				<div class="col-md-12" style="text-align:center;margin-top:10px;">
+				<button type="button" class="btn btn-success btn-lg btn-sms" data-toggle="modal" data-target="#myModal" data-id=
+				"coupon-id:1"><span class="glyphicon glyphicon-earphone sms-glyphicon">
+				</span><spring:message code="home.page.send.sms.button"/></button>
+				</div>
 			</div>
 			<!-- /.col-lg-4 -->
-			<div class="col-lg-4">
-				<img class="img-circle" data-src="holder.js/140x140"
-					alt="Generic placeholder image">
-				<h2>Heading</h2>
-				<p>Duis mollis, est non commodo luctus, nisi erat porttitor
-					ligula, eget lacinia odio sem nec elit. Cras mattis consectetur
-					purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo,
-					tortor mauris condimentum nibh.</p>
-				<p>
-					<a class="btn btn-default" href="#" role="button">View details
-						&raquo;</a>
-				</p>
+			<div class="col-md-6" style="padding:10px;">
+			<div class="col-md-12" style="padding-left:8px;">
+				<img src="http://placehold.it/400x250" 
+					alt="Third slide">
+				</div>
+				<div class="col-md-12" style="text-align:center;"><h3 style="color:green;">Dos sabanas por el precio de uno</h3></div>
+				<div class="col-md-12" style="text-align:center;"><span>Telas la sanaba</span></div>
+				<div class="col-md-12">
+				<span class="before-price">150,000</span><span class="after-price"> 100,000</span>
+				</div>
+				<div class="col-md-12" style="text-align:center;margin-top:10px;">
+				<button type="button" class="btn btn-success btn-lg btn-sms" data-toggle="modal" data-target="#myModal" data-id=
+				"coupon-id:2"><span class="glyphicon glyphicon-earphone sms-glyphicon">
+				</span><spring:message code="home.page.send.sms.button"/></button>
+				</div>
 			</div>
 			<!-- /.col-lg-4 -->
-			<div class="col-lg-4">
-				<img class="img-circle" data-src="holder.js/140x140"
-					alt="Generic placeholder image">
-				<h2>Heading</h2>
-				<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
-					egestas eget quam. Vestibulum id ligula porta felis euismod semper.
-					Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
-					nibh, ut fermentum massa justo sit amet risus.</p>
-				<p>
-					<a class="btn btn-default" href="#" role="button">View details
-						&raquo;</a>
-				</p>
-			</div>
+
 			<!-- /.col-lg-4 -->
 		</div>
 		<!-- /.row -->
-
 
 		<!-- START THE FEATURETTES -->
 
@@ -254,7 +250,6 @@
 		</div>
 
 		<hr class="featurette-divider">
-
 		<!-- /END THE FEATURETTES -->
 
 
@@ -272,7 +267,6 @@
 	</div>
 	<!-- /.container -->
 
-
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
@@ -280,6 +274,30 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<script type='text/javascript' src="http://imsky.github.io/holder/holder.js"></script>
-	<script src="../../assets/js/docs.min.js"></script>
+	<script type='text/javascript' src="./dist/js/entra/entra.js"></script>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width:450px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"  style="font-size:11px;" id="myModalLabel"><spring:message code="home.page.modal.facebook.publish"/></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <div class="col-md-12">
+				<img src="http://placehold.it/400x250" 
+					alt="Third slide">
+				</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
