@@ -17,3 +17,12 @@
 padding:10px;
 top:4px;
 }
+.coupon-detail-before-price{
+color: grey;
+	text-decoration:line-through; 
+}
+.coupon-detail-after-price{
+color: grey;
+	color: green;
+	font-weight:bolder;
+}
