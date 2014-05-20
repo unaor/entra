@@ -1,0 +1,63 @@
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:url var="postLoginUrl" value="/j_spring_security_check" />
+<c:url var="baseUrl" value="/" />
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 350px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+       
+					<form class="form-horizontal" role="form" method="post"
+						action="${postLoginUrl}">
+						<div class="form-group">
+							<label for="userName" class="col-md-3 control-label">User
+								name</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control input-sm" id="userName"
+									name="j_username" placeholder="Email">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="userPassword" class="col-md-3 control-label">Password</label>
+							<div class="col-sm-9">
+								<input type="password" class="form-control" id="userPassword"
+									name="j_password" placeholder="Password">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<div class="checkbox">
+									<label> <input type="checkbox"
+										name="_spring_security_remember_me"> Remember me
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+						<div  class="col-sm-offset-4 col-sm-8">
+						<button type="reset" class="btn btn-primary" id="loginBtn">Submit</button>
+						</div>
+						</div>
+					</form>
+
+
+      </div> 
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="./dist/js/jquery.rest.min.js"></script>
+<script type="text/javascript">
+$('#loginBtn').click(function(){
+	 var client = new $.RestClient('${baseUrl}');
+	 client.add('authenticate', { url: 'j_spring_security_check' });
+	 client.authenticate.create($( "form" ).serialize()).complete(function(data){
+		 alert("algo");
+	 });
+});
+</script>

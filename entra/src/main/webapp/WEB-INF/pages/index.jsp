@@ -57,6 +57,7 @@
 	<script type='text/javascript' src="./dist/js/entra/entra.js"></script>
 
 <jsp:include page="coupon-detail.jsp"/>
+<jsp:include page="login.jsp"/>
 
 </body>
 </html>

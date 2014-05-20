@@ -1,4 +1,5 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <div class="navbar-wrapper">
 		<div class="container">
 
@@ -31,6 +32,15 @@
 									<li><a href="#">One more separated link</a></li>
 								</ul></li>
 						</ul>
+					</div>
+					<div class="pull-right username-details">
+					<security:authorize access="isAnonymous()">
+					Hi, guest please <a data-toggle="modal" data-target="#loginModal">login</a>
+					</security:authorize>
+					
+					<security:authorize access="isAuthenticated()">
+					Hi <security:authentication property="principal.username"/> <a href="/entra/j_spring_security_logout">logout</a>
+					</security:authorize>
 					</div>
 				</div>
 			</div>
