@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import com.google.gson.Gson;
+
 @Component("ajaxAuthSuccessHandler")
 public class AjaxAuthSuccessHandler extends
 		SimpleUrlAuthenticationSuccessHandler {
@@ -24,7 +26,8 @@ public class AjaxAuthSuccessHandler extends
 			throws IOException, ServletException {
 		
 		PrintWriter out = response.getWriter();
-		out.write("OK");
+		Gson gson = new Gson();	
+		out.write(gson.toJson("GREAT"));
 		out.close();
 	}
 

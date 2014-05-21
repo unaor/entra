@@ -11,6 +11,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
+import com.google.gson.Gson;
+
 @Component("ajaxAuthFailureHandler")
 public class AjaxAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	
@@ -23,7 +25,8 @@ public class AjaxAuthFailureHandler extends SimpleUrlAuthenticationFailureHandle
 
 
 		PrintWriter out = response.getWriter();
-		out.write("BAD");
+		Gson gson = new Gson();		
+		out.write(gson.toJson("BAD"));
 		out.close();
 	}
 	

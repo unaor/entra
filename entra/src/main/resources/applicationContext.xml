@@ -62,5 +62,4 @@
 	</bean>
 	<!-- <import resource="entra-security.xml"/> -->
 	<tx:annotation-driven />
-
 </beans>

@@ -8,7 +8,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class BasicIndexTest {
@@ -29,10 +32,29 @@ public class BasicIndexTest {
 		String projectName = driver.findElement(By.className("navbar-brand"))
 				.getText();
 		assertEquals(projectName, "Project name");
-		// WebElement searchField = driver.findElement(By.id("sted"));
-		// searchField.clear();
-		// searchField.sendKeys("Stockholm");
-		// searchField.submit();
+	}
+	
+	@Test
+	public void checkLogin(){
+		driver.get(baseUrl);
+		String annonimousUser = driver.findElement(By.className("username-details")).getText();
+		assertTrue(annonimousUser.contains("guest"));
+		assertFalse(annonimousUser.contains("juan"));
+		driver.findElement(By.partialLinkText("login")).click();
+		 WebElement userName = driver.findElement(By.id("userName"));
+		 userName.sendKeys("juan");
+		 WebElement password = driver.findElement(By.id("userPassword"));
+		 password.sendKeys("p@ssword");
+		 driver.findElement(By.id("loginBtn")).click();
+		 try{
+			 driver.findElement(By.className("close")).click();
+		 }catch(UnhandledAlertException ex){
+			 System.out.print("catched modal exception");
+		 }
+		 
+		 driver.navigate().refresh();
+		 String juan = driver.findElement(By.className("username-details")).getText();
+		 assertTrue(juan.contains("juan"));
 	}
 
 	@After

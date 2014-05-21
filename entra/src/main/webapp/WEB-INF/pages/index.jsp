@@ -54,6 +54,7 @@
 		src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<script type='text/javascript'
 		src="http://imsky.github.io/holder/holder.js"></script>
+	<script type="text/javascript" src="./dist/js/jquery.rest.min.js"></script>	
 	<script type='text/javascript' src="./dist/js/entra/entra.js"></script>
 
 <jsp:include page="coupon-detail.jsp"/>
