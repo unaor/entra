@@ -21,12 +21,13 @@ http://www.springframework.org/schema/security/spring-security-3.2.xsd
 	</http>
 	<authentication-manager>
 		<authentication-provider>
-			<user-service>
+			<!-- <user-service>
 				<user name="juan" password="p@ssword"
 				authorities="user,admin" />
 				<user name="elvira" password="p@ssword"
 				authorities="user" />
-			</user-service>
+			</user-service> -->
+			<jdbc-user-service data-source-ref="dataSource.mysql"/>
 		</authentication-provider>
 	</authentication-manager>
 </beans:beans>

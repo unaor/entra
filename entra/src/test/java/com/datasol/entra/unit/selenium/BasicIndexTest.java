@@ -15,6 +15,8 @@ import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BasicIndexTest {
 
@@ -26,7 +28,7 @@ public class BasicIndexTest {
 	public void setUp() throws Exception {
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		driver.manage().timeouts().pageLoadTimeout(3, TimeUnit.SECONDS);
+		driver.manage().timeouts().pageLoadTimeout(6, TimeUnit.SECONDS);
 	}
 
 	@Test
@@ -36,28 +38,34 @@ public class BasicIndexTest {
 				.getText();
 		assertEquals(projectName, "Project name");
 	}
-	
+
 	@Test
-	public void checkLogin(){
+	public void checkLogin() {
 		driver.get(baseUrl);
-		String annonimousUser = driver.findElement(By.className("username-details")).getText();
+		WebDriverWait wait = new WebDriverWait(driver, 2);
+
+		String annonimousUser = driver.findElement(
+				By.className("username-details")).getText();
 		assertTrue(annonimousUser.contains("guest"));
 		assertFalse(annonimousUser.contains("juan"));
 		driver.findElement(By.partialLinkText("login")).click();
-		 WebElement userName = driver.findElement(By.id("userName"));
-		 userName.sendKeys("juan");
-		 WebElement password = driver.findElement(By.id("userPassword"));
-		 password.sendKeys("p@ssword");
-		 driver.findElement(By.id("loginBtn")).click();
-		 try{
-			 driver.findElement(By.className("close")).click();
-		 }catch(UnhandledAlertException ex){
-			 System.out.print("catched modal exception");
-		 }
-		 
-		 driver.navigate().refresh();
-		 String juan = driver.findElement(By.className("username-details")).getText();
-		 assertTrue(juan.contains("juan"));
+		wait.until(ExpectedConditions.presenceOfElementLocated(By
+				.id("userName")));
+		WebElement userName = driver.findElement(By.id("userName"));
+		userName.sendKeys("juan");
+		WebElement password = driver.findElement(By.id("userPassword"));
+		password.sendKeys("p@ssword");
+		driver.findElement(By.id("loginBtn")).click();
+		try {
+			driver.findElement(By.className("close")).click();
+		} catch (UnhandledAlertException ex) {
+			System.out.print("catched modal exception");
+		}
+
+		driver.navigate().refresh();
+		String juan = driver.findElement(By.className("username-details"))
+				.getText();
+		assertTrue(juan.contains("juan"));
 	}
 
 	@After

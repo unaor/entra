@@ -1,6 +1,4 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:url var="postLoginUrl" value="/j_spring_security_check" />
 
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -50,3 +48,4 @@
     </div>
   </div>
 </div>
+<script type='text/javascript' src="./dist/js/entra/login.js"></script>

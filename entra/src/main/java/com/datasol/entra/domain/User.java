@@ -13,6 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -41,15 +43,25 @@ public class User implements Serializable {
 	@Size(min = 2, max = 20)
 	private String lastName;
 
-	@Column(name = "email", unique = true)
+	@Column(name = "username", unique = true)
 	@NotNull
 	@Email
 	private String email;
+	@Column(name="enabled")
+	private Boolean enabled;
+	@Column(name="password")
+	@Size(min = 6, max = 20)
+	private String password;
+	
 	@OneToMany(mappedBy = "authorOfFBUser", targetEntity = FeedBack.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<FeedBack> placedFeedBacks;
 
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private Client client;
+	
+	@ManyToOne
+    @JoinColumn(name = "authority_id",updatable=true, insertable=true,nullable=true)
+	private Authority authority;
 
 	public User() {
 	}
@@ -106,5 +118,21 @@ public class User implements Serializable {
 
 	public void setClient(Client client) {
 		this.client = client;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
