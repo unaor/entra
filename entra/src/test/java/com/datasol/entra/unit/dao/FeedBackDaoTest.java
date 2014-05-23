@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.After;
