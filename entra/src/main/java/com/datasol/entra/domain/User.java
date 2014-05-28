@@ -1,12 +1,8 @@
 package com.datasol.entra.domain;
 
-/*		
- * the class represents a normal user that navigates into the portal
- */
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,50 +14,50 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import org.hibernate.validator.constraints.Email;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "users", schema = "entra")
 public class User implements Serializable {
-
 	private static final long serialVersionUID = 7168990382927442812L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "user_id")
 	private Long userId;
-
 	@Column(name = "first_name")
 	@NotNull
-	@Size(min = 2, max = 20)
+	@Size(min = 2, max = 20, message = "{user.validation.first.name.not.valid}")
 	private String firstName;
-
 	@Column(name = "last_name")
 	@NotNull
 	@Size(min = 2, max = 20)
 	private String lastName;
-
 	@Column(name = "username", unique = true)
 	@NotNull
 	@Email
 	private String email;
-	@Column(name="enabled")
+	@Column(name = "enabled")
 	private Boolean enabled;
-	@Column(name="password")
+	@Column(name = "password")
 	@Size(min = 6, max = 20)
 	private String password;
-	
-	@OneToMany(mappedBy = "authorOfFBUser", targetEntity = FeedBack.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "authorOfFBUser", targetEntity = FeedBack.class, fetch = FetchType.LAZY, cascade = { javax.persistence.CascadeType.ALL })
 	private Set<FeedBack> placedFeedBacks;
-
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "user", cascade = { javax.persistence.CascadeType.ALL })
 	private Client client;
-	
+	@DateTimeFormat(pattern = "dd/MM/YY")
+	private Date registrationDate;
 	@ManyToOne
-    @JoinColumn(name = "authority_id",updatable=true, insertable=true,nullable=true)
+	@JoinColumn(name = "authority_id", updatable = true, insertable = true, nullable = true)
 	private Authority authority;
+	@Transient
+	private String passwordConfirmation;
+	@Transient
+	private Boolean acceptedTos;
 
 	public User() {
 	}
@@ -73,7 +69,7 @@ public class User implements Serializable {
 	}
 
 	public Long getUserId() {
-		return userId;
+		return this.userId;
 	}
 
 	public void setUserId(Long userId) {
@@ -81,7 +77,7 @@ public class User implements Serializable {
 	}
 
 	public String getFirstName() {
-		return firstName;
+		return this.firstName;
 	}
 
 	public void setFirstName(String firstName) {
@@ -89,7 +85,7 @@ public class User implements Serializable {
 	}
 
 	public String getLastName() {
-		return lastName;
+		return this.lastName;
 	}
 
 	public void setLastName(String lastName) {
@@ -97,7 +93,7 @@ public class User implements Serializable {
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
@@ -105,7 +101,7 @@ public class User implements Serializable {
 	}
 
 	public Set<FeedBack> getPlacedFeedBacks() {
-		return placedFeedBacks;
+		return this.placedFeedBacks;
 	}
 
 	public void setPlacedFeedBacks(Set<FeedBack> placedFeedBacks) {
@@ -113,7 +109,7 @@ public class User implements Serializable {
 	}
 
 	public Client getClient() {
-		return client;
+		return this.client;
 	}
 
 	public void setClient(Client client) {
@@ -121,7 +117,7 @@ public class User implements Serializable {
 	}
 
 	public Boolean getEnabled() {
-		return enabled;
+		return this.enabled;
 	}
 
 	public void setEnabled(Boolean enabled) {
@@ -129,10 +125,42 @@ public class User implements Serializable {
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Date getRegistrationDate() {
+		return this.registrationDate;
+	}
+
+	public void setRegistrationDate(Date registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
+	public Authority getAuthority() {
+		return this.authority;
+	}
+
+	public void setAuthority(Authority authority) {
+		this.authority = authority;
+	}
+
+	public String getPasswordConfirmation() {
+		return this.passwordConfirmation;
+	}
+
+	public void setPasswordConfirmation(String passwordConfirmation) {
+		this.passwordConfirmation = passwordConfirmation;
+	}
+
+	public Boolean getAcceptedTos() {
+		return this.acceptedTos;
+	}
+
+	public void setAcceptedTos(Boolean acceptedTos) {
+		this.acceptedTos = acceptedTos;
 	}
 }
